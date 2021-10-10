@@ -1,0 +1,35 @@
+1.1. Создайте папку в корневой HDFS-папке:
+	hdfs dfs -mkdir /folder
+1.2. Создайте в созданной папке новую вложенную папку:
+	hdfs dfs -mkdir /folder/new_folder
+1.3. Что такое Trash в распределенной FS? Как сделать так, чтобы файлы удалялись сразу, минуя “Trash”?
+	Trash - директория, куда временно помещаются файлы после удаления. Чтобы удалить файл, миную Trash необходимо использовть флаг -skipTrash.
+1.4. Создайте пустой файл в подпапке из пункта 2.
+	hdfs dfs -touchz /folder/new_folder/file
+1.5.  Удалите созданный файл.
+	hdfs dfs -rm -skipTrash /folder/new_folder/file
+1.6. Удалите созданные папки.
+	hdfs dfs -rm -r /folder
+
+2.1. Скопируйте любой в новую папку на HDFS.
+	docker cp cmds.txt namenode:/
+	hdfs dfs -mkdir /new_folder
+	hdfs dfs -put cmds.txt /new_folder/
+2.2. Выведите содержимое HDFS-файла на экран.
+	hdfs dfs -cat /new_folder/cmds.txt
+2.3. Выведите содержимое нескольких последних строчек HDFS-файла на экран.
+	hdfs dfs -tail /new_folder/cmds.txt
+2.4. Выведите содержимое нескольких первых строчек HDFS-файла на экран.
+	hdfs dfs -head /new_folder/cmds.txt
+2.5. Переместите копию файла в HDFS на новую локацию.
+	hdfs dfs -cp /new_folder/cmds.txt /
+
+3.1. Изменить replication factor для файла. Как долго занимает время на увеличение /
+уменьшение числа реплик для файла?	
+	hdfs dfs -setrep -w 5 /new_folder/cmds.txt
+	# Заняло меньше 3х секунд. Думаю, это зависит от размера файла.
+3.2. Найдите информацию по файлу, блокам и их расположениям с помощью “hdfs fsck”
+	hdfs fsck /new_folder/cmds.txt -files -blocks -locations
+3.3. Получите информацию по любому блоку из п.2 с помощью "hdfs fsck -blockId”.
+Обратите внимание на Generation Stamp (GS number).
+	hdfs fsck -blockId blk_1073741832
