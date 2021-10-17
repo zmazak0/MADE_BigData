@@ -1,0 +1,19 @@
+WITH popular_tags AS (
+    SELECT TRIM(tag) AS tag, COUNT(tag) as cnt
+    FROM artists
+    LATERAL VIEW EXPLODE(SPLIT(tags_lastfm, ';')) tags AS tag
+    WHERE tag != ''
+    GROUP BY tag
+    ORDER BY cnt DESC
+    LIMIT 10
+    ),
+artists_tags AS (
+    SELECT tag, artist_lastfm, listeners_lastfm
+    FROM artists
+    LATERAL VIEW EXPLODE(SPLIT(tags_lastfm, ';')) tags AS tag
+)
+SELECT DISTINCT artist_lastfm, listeners_lastfm
+FROM artists_tags
+WHERE tag in (SELECT tag FROM popular_tags)
+ORDER BY listeners_lastfm DESC
+LIMIT 10;

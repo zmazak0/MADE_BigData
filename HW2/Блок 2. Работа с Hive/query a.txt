@@ -1,0 +1,5 @@
+SELECT artist_mb, scrobbles_lastfm
+FROM artists 
+WHERE scrobbles_lastfm in (
+SELECT max(scrobbles_lastfm) 
+FROM artists);

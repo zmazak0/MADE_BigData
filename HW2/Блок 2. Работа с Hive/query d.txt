@@ -1,0 +1,6 @@
+SELECT country_lastfm, count(*) as cnt
+FROM artists
+WHERE country_lastfm != ""
+GROUP BY country_lastfm
+ORDER BY cnt DESC
+LIMIT 10;

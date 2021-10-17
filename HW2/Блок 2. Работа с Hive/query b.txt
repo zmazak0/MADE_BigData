@@ -1,0 +1,7 @@
+SELECT TRIM(tag) AS tag, COUNT(tag) AS cnt
+FROM artists 
+LATERAL VIEW EXPLODE(SPLIT(tags_lastfm, ";")) tags AS tag
+WHERE tag != ""
+GROUP BY tag
+ORDER BY cnt DESC
+LIMIT 1;
