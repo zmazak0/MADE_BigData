@@ -1,0 +1,3 @@
+Successfully read and split data, 442 rows, 10 columns.
+Linear Regression fitted.RMSE on validation dataset: 80.19683820083937.
+Predictions are saved to: C:/Users/Zaven/Desktop/HW-3/data/predicts.csv
